@@ -15,20 +15,8 @@ import kotlinx.android.synthetic.main.activity_note_list.*
 
 import com.yoelglus.notes.dummy.DummyContent
 
-/**
- * An activity representing a list of Notes. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a [NoteDetailActivity] representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
 class NoteListActivity : AppCompatActivity() {
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
     private var twoPane: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
