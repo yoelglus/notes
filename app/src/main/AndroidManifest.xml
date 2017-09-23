@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".NoteListActivity"
+            android:name=".presentation.activity.NoteListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -20,13 +20,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NoteDetailActivity"
+            android:name=".presentation.activity.NoteDetailActivity"
             android:label="@string/title_note_detail"
-            android:parentActivityName=".NoteListActivity"
+            android:parentActivityName=".presentation.activity.NoteListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yoelglus.notes.NoteListActivity" />
+                android:value="com.yoelglus.notes.presentation.activity.NoteListActivity" />
         </activity>
     </application>
 

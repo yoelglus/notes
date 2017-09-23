@@ -1,4 +1,4 @@
-package com.yoelglus.notes
+package com.yoelglus.notes.presentation.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
