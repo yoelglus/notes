@@ -10,19 +10,39 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
-import com.yoelglus.notes.presentation.fragment.NoteDetailFragment
+import com.yoelglus.notes.NotesApplication
+import com.yoelglus.notes.fragment.NoteDetailFragment
 import com.yoelglus.notes.R
+import com.yoelglus.notes.domain.Note
 import kotlinx.android.synthetic.main.activity_note_list.*
 
 
 import com.yoelglus.notes.dummy.DummyContent
+import com.yoelglus.notes.presentation.presenter.NotesListPresenter
+import javax.inject.Inject
 
-class NoteListActivity : AppCompatActivity() {
+class NoteListActivity : AppCompatActivity(), NotesListPresenter.View {
+
+    override fun showNotes(notes: List<Note>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showError(message: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private var twoPane: Boolean = false
 
+    @Inject
+    lateinit var presenter: NotesListPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        (application as NotesApplication).component.inject(this)
+
+        presenter.takeView(this)
+
         setContentView(R.layout.activity_note_list)
 
         setSupportActionBar(toolbar)
@@ -38,6 +58,11 @@ class NoteListActivity : AppCompatActivity() {
         if (findViewById<FrameLayout>(R.id.note_detail_container) != null) {
             twoPane = true
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.dropView()
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
