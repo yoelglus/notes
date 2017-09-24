@@ -19,7 +19,11 @@ class NotesDatabaseOpenHelper(context: Context) : ManagedSQLiteOpenHelper(contex
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.createTable(NOTES_TABLE_NAME, true, "id" to INTEGER + PRIMARY_KEY, "text" to TEXT)
+        db?.createTable(NOTES_TABLE_NAME,
+                true,
+                "id" to INTEGER + PRIMARY_KEY,
+                "title" to TEXT,
+                "text" to TEXT)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

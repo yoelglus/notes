@@ -29,7 +29,7 @@ class SQLiteNotesRepositoryTest {
 
     @Test
     fun addsNoteToRepository() {
-        val note = Note(1, "test note")
+        val note = createDummyNote()
         val notesList = listOf(note)
 
         sqLiteNotesRepository.addNote(note).subscribe()
@@ -39,7 +39,7 @@ class SQLiteNotesRepositoryTest {
 
     @Test
     fun removesNotesFromRepository() {
-        val note = Note(1, "test note")
+        val note = createDummyNote()
         sqLiteNotesRepository.addNote(note).subscribe()
 
         sqLiteNotesRepository.deleteNote(note).subscribe()
@@ -49,7 +49,7 @@ class SQLiteNotesRepositoryTest {
 
     @Test
     fun updatesNotesInRepository() {
-        val note = Note(1, "test note")
+        val note = createDummyNote()
         sqLiteNotesRepository.addNote(note).subscribe()
 
         val updatedNote = note.copy(text = "new text")
@@ -57,6 +57,8 @@ class SQLiteNotesRepositoryTest {
 
         assertGetNotesReturns(listOf(updatedNote))
     }
+
+    private fun createDummyNote() = Note(1, "test note", "test note")
 
     private fun assertGetNotesReturns(notesList: List<Note>) {
         sqLiteNotesRepository.getNotes().toObservable().subscribe(testNotesObserver)

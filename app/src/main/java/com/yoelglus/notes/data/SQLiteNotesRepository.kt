@@ -39,7 +39,7 @@ class SQLiteNotesRepository(context: Context) : NotesRepository {
 
     override fun addNote(note: Note): Completable = createCompletable {
         notesDatabase.use {
-            insert(NotesDatabaseOpenHelper.NOTES_TABLE_NAME, "id" to note.id, "text" to note.text)
+            insert(NotesDatabaseOpenHelper.NOTES_TABLE_NAME, "id" to note.id, "title" to note.title, "text" to note.text)
         }
 
     }
@@ -52,7 +52,7 @@ class SQLiteNotesRepository(context: Context) : NotesRepository {
 
     override fun updateNote(note: Note): Completable = createCompletable {
         notesDatabase.use {
-            update(NotesDatabaseOpenHelper.NOTES_TABLE_NAME, "text" to note.text)
+            update(NotesDatabaseOpenHelper.NOTES_TABLE_NAME, "title" to note.title, "text" to note.text)
                     .whereSimple("id = ?", note.id.toString()).exec()
         }
     }

@@ -10,7 +10,7 @@ class DeleteNoteTest {
     internal fun callsRepository() {
         val notesRepository = mock(NotesRepository::class.java)
         val deleteNote = DeleteNote(notesRepository)
-        val note = Note(1, "text")
+        val note = Note(1, "title", "text")
 
         deleteNote.execute(note)
 

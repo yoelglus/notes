@@ -9,7 +9,7 @@ class UpdateNoteTest {
     fun callsRepository() {
         val notesRepository = Mockito.mock(NotesRepository::class.java)
         val updateNote = UpdateNote(notesRepository)
-        val note = Note(1, "text")
+        val note = Note(1, "title", "text")
 
         updateNote.execute(note)
 

@@ -11,7 +11,7 @@ class AddNoteTest {
     internal fun callsRepository() {
         val notesRepository = mock(NotesRepository::class.java)
         val addNote = AddNote(notesRepository)
-        val note = Note(1, "text")
+        val note = Note(1, "title", "text")
 
         addNote.execute(note)
 
