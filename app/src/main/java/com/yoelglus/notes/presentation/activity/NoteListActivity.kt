@@ -13,7 +13,6 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import com.yoelglus.notes.R
 import com.yoelglus.notes.domain.Note
-import com.yoelglus.notes.dummy.DummyContent
 import com.yoelglus.notes.fragment.NoteDetailFragment
 import com.yoelglus.notes.presentation.presenter.NotesListPresenter
 import com.yoelglus.notes.presentation.presenter.PresenterFactory
@@ -21,19 +20,14 @@ import kotlinx.android.synthetic.main.activity_note_list.*
 
 class NoteListActivity : AppCompatActivity(), NotesListPresenter.View {
 
-    override fun showNotes(notes: List<Note>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun showError(message: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     private var twoPane: Boolean = false
+
 
     private val presenter: NotesListPresenter by lazy {
         PresenterFactory.createNotesListPresenter(this)
     }
+
+    private val adapter = SimpleItemRecyclerViewAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +44,7 @@ class NoteListActivity : AppCompatActivity(), NotesListPresenter.View {
                     .setAction("Action", null).show()
         }
 
-        setupRecyclerView(findViewById<RecyclerView>(R.id.note_list))
+        findViewById<RecyclerView>(R.id.note_list).adapter = adapter
 
         if (findViewById<FrameLayout>(R.id.note_detail_container) != null) {
             twoPane = true
@@ -62,14 +56,20 @@ class NoteListActivity : AppCompatActivity(), NotesListPresenter.View {
         presenter.dropView()
     }
 
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(DummyContent.ITEMS)
+    override fun showNotes(notes: List<Note>) {
+        adapter.values.addAll(notes)
     }
 
-    inner class SimpleItemRecyclerViewAdapter(private val mValues: List<DummyContent.DummyItem>) : RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
+    override fun showError(message: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    inner class SimpleItemRecyclerViewAdapter : RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
+
+        val values: MutableList<Note> = mutableListOf()
 
         override fun getItemCount(): Int {
-            return mValues.size
+            return values.size
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -78,14 +78,14 @@ class NoteListActivity : AppCompatActivity(), NotesListPresenter.View {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.item = mValues[position]
-            holder.idView.text = mValues[position].id
-            holder.contentView.text = mValues[position].content
+            holder.item = values[position]
+            holder.idView.text = values[position].title
+            holder.contentView.text = values[position].text
 
             holder.mView.setOnClickListener { v ->
                 if (twoPane) {
                     val arguments = Bundle()
-                    arguments.putString(NoteDetailFragment.ARG_ITEM_ID, holder.item!!.id)
+                    arguments.putInt(NoteDetailFragment.ARG_ITEM_ID, holder.item.id)
                     val fragment = NoteDetailFragment()
                     fragment.arguments = arguments
                     supportFragmentManager.beginTransaction()
@@ -94,7 +94,7 @@ class NoteListActivity : AppCompatActivity(), NotesListPresenter.View {
                 } else {
                     val context = v.context
                     val intent = Intent(context, NoteDetailActivity::class.java)
-                    intent.putExtra(NoteDetailFragment.ARG_ITEM_ID, holder.item!!.id)
+                    intent.putExtra(NoteDetailFragment.ARG_ITEM_ID, holder.item.id)
 
                     context.startActivity(intent)
                 }
@@ -102,9 +102,9 @@ class NoteListActivity : AppCompatActivity(), NotesListPresenter.View {
         }
 
         inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-            val idView: TextView = mView.findViewById<TextView>(R.id.id)
-            val contentView: TextView = mView.findViewById<TextView>(R.id.content)
-            var item: DummyContent.DummyItem? = null
+            val idView: TextView = mView.findViewById(R.id.id)
+            val contentView: TextView = mView.findViewById(R.id.content)
+            lateinit var item: Note
 
             override fun toString(): String {
                 return super.toString() + " '" + contentView.text + "'"
