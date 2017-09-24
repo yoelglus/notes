@@ -55,4 +55,5 @@ class SQLiteNotesRepository(private val context: Context) : NotesRepository {
             update(NotesDatabaseOpenHelper.NOTES_TABLE_NAME, "text" to note.text).whereSimple("id = ?", note.id.toString()).exec()
         }
     }
+
 }
