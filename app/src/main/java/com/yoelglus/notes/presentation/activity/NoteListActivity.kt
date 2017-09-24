@@ -3,7 +3,6 @@ package com.yoelglus.notes.presentation.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -40,8 +39,7 @@ class NoteListActivity : AppCompatActivity(), NotesListPresenter.View {
         toolbar.title = title
 
         addNoteButton.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            startActivity(Intent(view.context, AddNoteActivity::class.java))
         }
 
         findViewById<RecyclerView>(R.id.note_list).adapter = adapter

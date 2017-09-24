@@ -10,7 +10,7 @@ interface NotesRepository {
 
     fun getNote(id: Int): Maybe<Note>
 
-    fun addNote(title: String, text: String): Maybe<Int>
+    fun addNote(title: String, text: String): Single<Int>
 
     fun deleteNote(note: Note): Completable
 

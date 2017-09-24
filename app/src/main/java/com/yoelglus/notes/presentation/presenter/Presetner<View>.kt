@@ -10,9 +10,14 @@ abstract class Presetner<View>() {
     }
     fun dropView() {
         view = null
+        onDropView()
     }
 
     protected open fun onTakeView() {
+
+    }
+
+    protected open fun onDropView() {
 
     }
 

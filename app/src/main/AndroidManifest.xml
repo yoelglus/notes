@@ -28,6 +28,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.yoelglus.notes.presentation.activity.NoteListActivity" />
         </activity>
+
+        <activity
+            android:name=".presentation.activity.AddNoteActivity"
+            android:label="@string/title_add_note"
+            android:parentActivityName=".presentation.activity.NoteListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.yoelglus.notes.presentation.activity.NoteListActivity" />
+        </activity>
     </application>
 
 </manifest>
