@@ -29,36 +29,45 @@ class SQLiteNotesRepositoryTest {
 
     @Test
     fun addsNoteToRepository() {
-        val note = createDummyNote()
-        val notesList = listOf(note)
+        val title = "title"
+        val text = "text"
 
-        sqLiteNotesRepository.addNote(note).subscribe()
-
-        assertGetNotesReturns(notesList)
+        sqLiteNotesRepository.addNote(title, text).subscribe {
+            val notesList = listOf(Note(it, title, text))
+            assertGetNotesReturns(notesList)
+        }
     }
 
     @Test
     fun removesNotesFromRepository() {
-        val note = createDummyNote()
-        sqLiteNotesRepository.addNote(note).subscribe()
+        val title = "title"
+        val text = "text"
 
-        sqLiteNotesRepository.deleteNote(note).subscribe()
+        sqLiteNotesRepository.addNote(title, text).subscribe {
+            val note = Note(it, title, text)
 
-        assertGetNotesReturns(emptyList())
+            sqLiteNotesRepository.deleteNote(note).subscribe()
+
+            assertGetNotesReturns(emptyList())
+        }
+
     }
 
     @Test
     fun updatesNotesInRepository() {
-        val note = createDummyNote()
-        sqLiteNotesRepository.addNote(note).subscribe()
+        val title = "title"
+        val text = "text"
 
-        val updatedNote = note.copy(text = "new text")
-        sqLiteNotesRepository.updateNote(updatedNote).subscribe()
+        sqLiteNotesRepository.addNote(title, text).subscribe {
+            val note = Note(it, title, text)
+            val updatedNote = note.copy(text = "new text")
 
-        assertGetNotesReturns(listOf(updatedNote))
+            sqLiteNotesRepository.updateNote(updatedNote).subscribe()
+
+            assertGetNotesReturns(listOf(updatedNote))
+        }
+
     }
-
-    private fun createDummyNote() = Note(1, "test note", "test note")
 
     private fun assertGetNotesReturns(notesList: List<Note>) {
         sqLiteNotesRepository.getNotes().toObservable().subscribe(testNotesObserver)

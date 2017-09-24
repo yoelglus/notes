@@ -6,7 +6,7 @@ import org.jetbrains.anko.db.*
 
 class NotesDatabaseOpenHelper(context: Context) : ManagedSQLiteOpenHelper(context, "NotesDatabase", null, 1) {
     companion object {
-        public val NOTES_TABLE_NAME = "Note"
+        val NOTES_TABLE_NAME = "Note"
         private var instance: NotesDatabaseOpenHelper? = null
 
         @Synchronized

@@ -37,11 +37,12 @@ class SQLiteNotesRepository(context: Context) : NotesRepository {
         note
     }
 
-    override fun addNote(note: Note): Completable = createCompletable {
+    override fun addNote(title: String, text: String): Maybe<Int> = createMaybe {
+        var rowId: Long? = null
         notesDatabase.use {
-            insert(NotesDatabaseOpenHelper.NOTES_TABLE_NAME, "id" to note.id, "title" to note.title, "text" to note.text)
+            rowId = insert(NotesDatabaseOpenHelper.NOTES_TABLE_NAME, "title" to title, "text" to text)
         }
-
+        if (rowId==-1L) null else rowId?.toInt()
     }
 
     override fun deleteNote(note: Note): Completable = createCompletable {
