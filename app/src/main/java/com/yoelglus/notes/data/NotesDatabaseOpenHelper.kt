@@ -6,6 +6,7 @@ import org.jetbrains.anko.db.*
 
 class NotesDatabaseOpenHelper(context: Context) : ManagedSQLiteOpenHelper(context, "NotesDatabase", null, 1) {
     companion object {
+        public val NOTES_TABLE_NAME = "Note"
         private var instance: NotesDatabaseOpenHelper? = null
 
         @Synchronized
@@ -18,7 +19,7 @@ class NotesDatabaseOpenHelper(context: Context) : ManagedSQLiteOpenHelper(contex
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.createTable("Notes", true, "id" to INTEGER + PRIMARY_KEY + UNIQUE, "text" to TEXT)
+        db?.createTable(NOTES_TABLE_NAME, true, "id" to INTEGER + PRIMARY_KEY, "text" to TEXT)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

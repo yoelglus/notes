@@ -1,11 +1,17 @@
 package com.yoelglus.notes.domain
 
+import io.reactivex.Completable
+import io.reactivex.Maybe
+import io.reactivex.Single
+
 interface NotesRepository {
-    fun getNotes(): List<Note>
+    fun getNotes(): Single<List<Note>>
 
-    fun addNote(note: Note)
+    fun getNote(id: Int): Maybe<Note>
 
-    fun deleteNote(note: Note)
+    fun addNote(note: Note): Completable
 
-    fun updateNote(note: Note)
+    fun deleteNote(note: Note): Completable
+
+    fun updateNote(note: Note): Completable
 }

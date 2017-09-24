@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
-import com.yoelglus.notes.NoteDetailFragment
+import com.yoelglus.notes.presentation.fragment.NoteDetailFragment
 import com.yoelglus.notes.R
 import kotlinx.android.synthetic.main.activity_note_list.*
 
