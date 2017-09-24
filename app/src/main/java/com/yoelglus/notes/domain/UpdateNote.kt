@@ -1,7 +1,8 @@
 package com.yoelglus.notes.domain
 
-class UpdateNote() {
-    fun execute(note: Note) {
+import com.yoelglus.notes.domain.gateways.NotesRepository
+import io.reactivex.Completable
 
-    }
+class UpdateNote constructor(private val notesRepository: NotesRepository) {
+    fun execute(note: Note): Completable = notesRepository.updateNote(note)
 }
