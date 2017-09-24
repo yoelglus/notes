@@ -2,7 +2,7 @@ package com.yoelglus.notes.data
 
 import android.content.Context
 import com.yoelglus.notes.domain.Note
-import com.yoelglus.notes.domain.NotesRepository
+import com.yoelglus.notes.domain.gateways.NotesRepository
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
@@ -11,7 +11,7 @@ import io.reactivex.Completable.fromCallable as createCompletable
 import io.reactivex.Maybe.fromCallable as createMaybe
 import io.reactivex.Single.fromCallable as createSingle
 
-class SQLiteNotesRepository(private val context: Context) : NotesRepository {
+class SQLiteNotesRepository(context: Context) : NotesRepository {
 
     private val notesDatabase = context.notesDatabase
 
@@ -52,7 +52,8 @@ class SQLiteNotesRepository(private val context: Context) : NotesRepository {
 
     override fun updateNote(note: Note): Completable = createCompletable {
         notesDatabase.use {
-            update(NotesDatabaseOpenHelper.NOTES_TABLE_NAME, "text" to note.text).whereSimple("id = ?", note.id.toString()).exec()
+            update(NotesDatabaseOpenHelper.NOTES_TABLE_NAME, "text" to note.text)
+                    .whereSimple("id = ?", note.id.toString()).exec()
         }
     }
 

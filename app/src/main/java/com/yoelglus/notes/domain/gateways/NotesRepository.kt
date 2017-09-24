@@ -1,5 +1,6 @@
-package com.yoelglus.notes.domain
+package com.yoelglus.notes.domain.gateways
 
+import com.yoelglus.notes.domain.Note
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
