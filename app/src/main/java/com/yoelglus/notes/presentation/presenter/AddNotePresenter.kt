@@ -5,7 +5,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 
-class AddNotePresenter(private val addNote: AddNote): Presetner<AddNotePresenter.View>() {
+class AddNotePresenter(private val addNote: AddNote) : Presetner<AddNotePresenter.View>() {
 
     private val compositeDisposable = CompositeDisposable()
     private var title = ""
@@ -17,14 +17,11 @@ class AddNotePresenter(private val addNote: AddNote): Presetner<AddNotePresenter
             compositeDisposable.add(view.titleChanged().subscribe { title = it })
             compositeDisposable.add(view.textChanged().subscribe { text = it })
             compositeDisposable.add(view.addButtonClicked().subscribe {
-                addNote.execute(title, text).subscribe { noteId, _ ->
-                    if (noteId != null) {
-                        view.notifySuccess()
-                    }
-                    else {
-                        view.notifyAddFailed()
-                    }
-                }
+                addNote.execute(title, text).doOnSuccess {
+                    view.notifySuccess()
+                }.doOnError {
+                    view.notifyAddFailed(it.message)
+                }.subscribe()
             })
         }
     }
@@ -37,8 +34,8 @@ class AddNotePresenter(private val addNote: AddNote): Presetner<AddNotePresenter
     interface View {
         fun titleChanged(): Observable<String>
         fun textChanged(): Observable<String>
-        fun addButtonClicked(): Completable
-        fun notifyAddFailed()
+        fun addButtonClicked(): Observable<Unit>
+        fun notifyAddFailed(errorMessage: String?)
         fun notifySuccess()
 
     }

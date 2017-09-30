@@ -6,7 +6,7 @@ import android.support.v4.app.NavUtils
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.yoelglus.notes.R
-import com.yoelglus.notes.fragment.NoteDetailFragment
+import com.yoelglus.notes.presentation.fragment.NoteDetailFragment
 import kotlinx.android.synthetic.main.activity_note_detail.*
 
 /**

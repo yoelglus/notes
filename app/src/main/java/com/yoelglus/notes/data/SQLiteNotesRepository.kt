@@ -13,6 +13,15 @@ import io.reactivex.Single.fromCallable as createSingle
 
 class SQLiteNotesRepository(context: Context) : NotesRepository {
 
+    companion object {
+        @Volatile private var INSTANCE: SQLiteNotesRepository? = null
+
+        fun getInstance(context: Context): SQLiteNotesRepository =
+                INSTANCE ?: synchronized(this) {
+                    INSTANCE ?: SQLiteNotesRepository(context).also { INSTANCE = it }
+                }
+    }
+
     private val notesDatabase = context.notesDatabase
 
     override fun getNotes(): Single<List<Note>> = createSingle {
@@ -29,7 +38,8 @@ class SQLiteNotesRepository(context: Context) : NotesRepository {
     override fun getNote(id: Int): Maybe<Note> = createMaybe {
         var note: Note? = null
         notesDatabase.use {
-            select(NotesDatabaseOpenHelper.NOTES_TABLE_NAME).exec {
+            select(NotesDatabaseOpenHelper.NOTES_TABLE_NAME)
+                    .whereArgs("id = {noteId}", "noteId" to id).exec {
                 val rawParser = classParser<Note>()
                 note = parseOpt(rawParser)
             }
@@ -42,7 +52,7 @@ class SQLiteNotesRepository(context: Context) : NotesRepository {
         notesDatabase.use {
             rowId = insert(NotesDatabaseOpenHelper.NOTES_TABLE_NAME, "title" to title, "text" to text)
         }
-        if (rowId==-1L)
+        if (rowId == -1L)
             throw Exception("Failed to add note")
         rowId.toInt()
     }

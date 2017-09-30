@@ -2,4 +2,7 @@
     <string name="app_name">Notes</string>
     <string name="title_note_detail">Note Detail</string>
     <string name="title_add_note">Add Note</string>
+    <string name="title_field">Title</string>
+    <string name="text_field">Text</string>
+    <string name="note_added_toast">Note Added</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.yoelglus.notes.fragment
+package com.yoelglus.notes.presentation.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -20,7 +20,7 @@ class NoteDetailFragment : Fragment(), NotePresenter.View {
     }
 
     override fun showNote(note: Note) {
-        toolbar_layout?.title = note.title
+        activity.toolbar_layout?.title = note.title
         note_detail?.text = note.text
     }
 
@@ -29,7 +29,7 @@ class NoteDetailFragment : Fragment(), NotePresenter.View {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.note_detail, container, false)
+        return inflater?.inflate(R.layout.note_detail, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
