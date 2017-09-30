@@ -9,6 +9,10 @@ class NotesListPresenter(private val getNotes: GetNotes) : Presetner<NotesListPr
     private var getNotesDisposable: Disposable? = null
 
     override fun onTakeView() {
+        getNotesList()
+    }
+
+    private fun getNotesList() {
         getNotesDisposable = getNotes.execute().doOnSuccess { notes ->
             view?.showNotes(notes)
         }.doOnError {
@@ -23,5 +27,9 @@ class NotesListPresenter(private val getNotes: GetNotes) : Presetner<NotesListPr
     interface View {
         fun showNotes(notes: List<Note>)
         fun showError(message: String)
+    }
+
+    fun refreshData() {
+        getNotesList()
     }
 }

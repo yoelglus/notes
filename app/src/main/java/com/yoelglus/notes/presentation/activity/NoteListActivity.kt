@@ -1,6 +1,7 @@
 package com.yoelglus.notes.presentation.activity
 
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -19,8 +20,9 @@ import kotlinx.android.synthetic.main.activity_note_list.*
 
 class NoteListActivity : AppCompatActivity(), NotesListPresenter.View {
 
-    private var twoPane: Boolean = false
+    private val ADD_NOTE_REQUEST = 123
 
+    private var twoPane: Boolean = false
 
     private val presenter: NotesListPresenter by lazy {
         PresenterFactory.createNotesListPresenter(this)
@@ -39,7 +41,7 @@ class NoteListActivity : AppCompatActivity(), NotesListPresenter.View {
         toolbar.title = title
 
         addNoteButton.setOnClickListener { view ->
-            startActivity(Intent(view.context, AddNoteActivity::class.java))
+            startActivityForResult(Intent(view.context, AddNoteActivity::class.java), ADD_NOTE_REQUEST)
         }
 
         findViewById<RecyclerView>(R.id.note_list).adapter = adapter
@@ -49,13 +51,23 @@ class NoteListActivity : AppCompatActivity(), NotesListPresenter.View {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ADD_NOTE_REQUEST && resultCode == Activity.RESULT_OK) {
+            presenter.refreshData()
+        }
+
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         presenter.dropView()
     }
 
     override fun showNotes(notes: List<Note>) {
+        adapter.values.clear()
         adapter.values.addAll(notes)
+        adapter.notifyDataSetChanged()
     }
 
     override fun showError(message: String) {
