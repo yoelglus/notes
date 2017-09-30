@@ -39,8 +39,8 @@ class NoteDetailActivity : AppCompatActivity() {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             val arguments = Bundle()
-            arguments.putString(NoteDetailFragment.ARG_ITEM_ID,
-                    intent.getStringExtra(NoteDetailFragment.ARG_ITEM_ID))
+            arguments.putInt(NoteDetailFragment.ARG_ITEM_ID,
+                    intent.getIntExtra(NoteDetailFragment.ARG_ITEM_ID, -1))
             val fragment = NoteDetailFragment()
             fragment.arguments = arguments
             supportFragmentManager.beginTransaction().add(R.id.note_detail_container, fragment).commit()
