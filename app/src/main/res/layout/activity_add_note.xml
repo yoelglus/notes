@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/title_field"
-            android:lines="1" />
+            android:lines="1"
+            android:layout_marginEnd="100dp"/>
 
         <EditText
             android:id="@+id/textEditText"
@@ -26,7 +27,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="top"
-            android:hint="@string/text_field" />
+            android:hint="@string/text_field"/>
 
     </LinearLayout>
 
@@ -34,7 +35,7 @@
         android:id="@+id/saveNoteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_gravity="top|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_input_add" />
 </android.support.design.widget.CoordinatorLayout>
